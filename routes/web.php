@@ -1,5 +1,6 @@
 <?php
 
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -13,7 +14,16 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+Route::redirect('/', '/tweets', 301);
+
+Route::group(['middleware' => 'auth'], function () {
+    Route::get('/home', 'TweetController@index')->name('home');
+    Route::resource('tweets', 'TweetController');
+
+    Route::group(['prefix' => 'profiles'], function () {
+        Route::get('/{user}-{name?}', 'ProfileController@show')->name('profile');
+        Route::post('/{user}/follow', 'FollowController@store')->name('follow');
+    });
+});
 
 Auth::routes();
-
-Route::get('/', 'HomeController@index')->name('home');
