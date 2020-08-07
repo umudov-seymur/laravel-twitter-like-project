@@ -12,7 +12,9 @@
                 <p class="text-sm text-gray-500">Joined {{ $user->created_at->diffForHumans() }}</p>
             </div>
             <div class="flex">
-                <a href="#" class="bg-transparent border border-gray-300 rounded-full py-2 px-4 mr-2 text-black text-xs hover:bg-blue-400 hover:text-white">Edit Profile</a>
+                @if (Auth::user()->is($user))
+                    <a href="#" class="bg-transparent border border-gray-300 rounded-full py-2 px-4 mr-2 text-black text-xs hover:bg-blue-400 hover:text-white">Edit Profile</a>
+                @endif
                 <x-follow-button :user="$user"></x-follow-button>
             </div>
         </div>
