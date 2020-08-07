@@ -13,18 +13,7 @@
             </div>
             <div class="flex">
                 <a href="#" class="bg-transparent border border-gray-300 rounded-full py-2 px-4 mr-2 text-black text-xs hover:bg-blue-400 hover:text-white">Edit Profile</a>
-                @if (Auth::user()->id !== $user->id)
-                    <form action="{{ route('follow', $user->id) }}" method="post">
-                        @csrf
-                        <button type="submit" class="bg-blue-400 rounded-full shadow-md py-2 px-4 text-white text-xs">
-                            @if (Auth::user()->following($user))
-                                Unfollow
-                            @else
-                                Folow
-                            @endif
-                        </button>
-                    </form>
-                @endif
+                <x-follow-button :user="$user"></x-follow-button>
             </div>
         </div>
         <p class="text-sm">
