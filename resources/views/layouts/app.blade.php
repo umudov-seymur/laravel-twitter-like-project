@@ -7,6 +7,8 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <link rel="stylesheet" href="{{ asset('css/twitter.css') }}">
     <title>Tweety</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css">
+    @livewireStyles
 </head>
 
 <body>
@@ -20,7 +22,7 @@
             @auth
                 <form action="{{ route('logout') }}" method="POST">
                     @csrf
-                    <a href="{{ route('profile', [Auth::user()->id,'my']) }}" class="bg-blue-700 hover:bg-blue-500 text-white font-semibold py-2 px-4 border border-blue-500 hover:border-transparent rounded mr-2">My account</a>
+                    <a href="{{ route('profile', current_user()->username) }}" class="bg-blue-700 hover:bg-blue-500 text-white font-semibold py-2 px-4 border border-blue-500 hover:border-transparent rounded mr-2">My account</a>
                      <button type="submit" class="bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded">Logout</button>
                 </form>
             @endauth
@@ -43,5 +45,8 @@
             </div>
         </main>
     </div>
+    @include('sweetalert::alert')
+    @livewireScripts
+    <script src="{{ mix('js/app.js') }}"></script>
 </body>
 </html>

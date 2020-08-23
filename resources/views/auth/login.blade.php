@@ -1,8 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="container bg-blue-300 p-8 mx-auto shadow-lg border border-gray-400 rounded-lg">
-    <div class="card">
+<div class="bg-blue-300 p-8 mx-auto shadow-lg border border-gray-400 rounded-lg">
         <h2 class="card-header text-3xl font-bold mb-2">{{ __('Login') }}</h2>
 
         <div class="card-body">
@@ -66,7 +65,5 @@
                 </div>
             </form>
         </div>
-    </div>
-</div>
 </div>
 @endsection

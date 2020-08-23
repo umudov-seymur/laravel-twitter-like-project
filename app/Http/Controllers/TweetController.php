@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Tweet;
-use Illuminate\Http\Request;
 use App\Http\Requests\TweetRequest;
 
 class TweetController extends Controller
@@ -21,16 +20,6 @@ class TweetController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
@@ -38,46 +27,15 @@ class TweetController extends Controller
      */
     public function store(TweetRequest $request)
     {
-        Tweet::create([
-            'user_id' => auth()->user()->id,
-            'body' => $request->body
+        $request->merge([
+            'user_id' => auth()->user()->id
         ]);
 
-        return redirect('/home');
-    }
+        Tweet::create($request->all());
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Tweet  $tweet
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Tweet $tweet)
-    {
-        //
-    }
+        toast('Post shared succesfull!', 'success');
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Tweet  $tweet
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Tweet $tweet)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Tweet  $tweet
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, Tweet $tweet)
-    {
-        //
+        return redirect()->route('tweets.index');
     }
 
     /**
@@ -88,6 +46,12 @@ class TweetController extends Controller
      */
     public function destroy(Tweet $tweet)
     {
-        //
+        $this->authorize('delete', $tweet);
+
+        $tweet->delete();
+
+        toast('Tweet deleted successfull!', 'success');
+
+        return back();
     }
 }

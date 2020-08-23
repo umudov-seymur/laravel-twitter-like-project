@@ -3,8 +3,9 @@
 namespace App;
 
 use App\Traits\Followable;
-use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Foundation\Auth\User as Authenticatable;
 
 class User extends Authenticatable
 {
@@ -15,9 +16,7 @@ class User extends Authenticatable
      *
      * @var array
      */
-    protected $fillable = [
-        'name', 'email', 'password',
-    ];
+    protected $guarded = [];
 
     /**
      * The attributes that should be hidden for arrays.
@@ -48,12 +47,25 @@ class User extends Authenticatable
 
         return Tweet::whereIn('user_id', $friends)
             ->orWhere('user_id', $this->id)
+            ->withLikes()
             ->latest()
             ->get();
     }
 
-    public function getAvatarAttribute()
+    public function setPasswordAttribute($value)
     {
-        return 'https://i.pravatar.cc/150?u=' . $this->email;
+        $this->attributes['password'] = !is_null($value) ? bcrypt($value) : $this->password;
+    }
+
+    public function getAvatarPathAttribute()
+    {
+        return !is_null($this->avatar)
+            ? Storage::url($this->avatar)
+            : asset('default-avatar.jpeg');
+    }
+
+    public function likes()
+    {
+        return $this->hasMany(Like::class);
     }
 }

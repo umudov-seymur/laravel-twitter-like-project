@@ -24,6 +24,7 @@
         "vue-template-compiler": "^2.6.10"
     },
     "dependencies": {
-        "tailwindcss": "^1.5.1"
+        "tailwindcss": "^1.5.1",
+        "vue2-dropzone": "^3.6.0"
     }
 }
